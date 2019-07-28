@@ -9,8 +9,49 @@
 import SwiftUI
 
 struct ContentView : View {
+    @State private var hour = 0
+    var hours : [Int] = ([Int])(0...23)
+    @State private var minute = 0
+    var minutes : [Int] = ([Int])(0...59)
+    @State private var second = 0
+    var seconds : [Int] = ([Int])(0...59)
     var body: some View {
-        Text("Hello World")
+        GeometryReader { geometry in
+            VStack(spacing: 0){
+                HStack{
+                    VStack{
+                        Picker(selection: self.$hour, label: Text("hours")){
+                            ForEach(self.hours) { hour in
+                                Text("\(hour)")
+                            }
+                            }
+                            .frame(width: geometry.size.width / 3)
+                            .clipped()
+                        Text("時間")
+                    }
+                    VStack{
+                        Picker(selection: self.$minute, label: Text("minutes")){
+                            ForEach(self.minutes) { minute in
+                                Text("\(minute)")
+                            }
+                            }
+                            .frame(width: geometry.size.width / 3)
+                            .clipped()
+                        Text("分")
+                    }
+                    VStack{
+                        Picker(selection: self.$second, label: Text("seconds")){
+                            ForEach(self.seconds) { second in
+                                Text("\(second)")
+                            }
+                            }
+                            .frame(width: geometry.size.width / 3)
+                            .clipped()
+                        Text("秒")
+                    }
+                }
+            }
+        }
     }
 }
 
