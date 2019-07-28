@@ -15,13 +15,13 @@ struct ContentView : View {
     var minutes : [Int] = ([Int])(0...59)
     @State private var second = 0
     var seconds : [Int] = ([Int])(0...59)
-    @State private var didTap: Bool = false
+    @State private var didShow: Bool = false
     @State private var didStart: Bool = false
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0){
                 HStack(spacing: 0){
-                    if !self.didTap {
+                    if !self.didShow {
                         VStack{
                             Picker(selection: self.$hour, label: Text("hours")){
                                 ForEach(self.hours) { hour in
@@ -69,13 +69,14 @@ struct ContentView : View {
                                 self.hour = 0
                                 self.minute = 0
                                 self.second = 0
-                                if self.didTap{
-                                    self.didTap.toggle()
+                                if self.didShow{
+                                    self.didShow.toggle()
+                                    self.didStart.toggle()
                                 }
                         }
                     }
                     Button(action: {}) {
-                        if !self.didStart {
+                        if !self.didStart && !self.didShow{
                             Text("開始")
                                 .color(Color.black)
                                 .font(.largeTitle)
@@ -83,11 +84,20 @@ struct ContentView : View {
                                 .background(Color.green ,cornerRadius: Length(100))
                                 .tapAction {
                                     self.didStart.toggle()
-                                    self.didTap.toggle()
+                                    self.didShow.toggle()
                                     
                             }
-                        }else{
+                        }else if self.didStart && self.didShow{
                             Text("停止")
+                                .color(Color.black)
+                                .font(.largeTitle)
+                                .frame(width: 90.0, height: 90.0)
+                                .background(Color.red ,cornerRadius: Length(100))
+                                .tapAction {
+                                    self.didStart.toggle()
+                            }
+                        }else if !self.didStart && self.didShow{
+                            Text("再開")
                                 .color(Color.black)
                                 .font(.largeTitle)
                                 .frame(width: 90.0, height: 90.0)
